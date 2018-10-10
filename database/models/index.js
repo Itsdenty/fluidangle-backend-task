@@ -37,4 +37,4 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.namespace = namespace;
 //db.sequelize.connectionManager.pool.start();
-module.exports = db;
+export default db;
