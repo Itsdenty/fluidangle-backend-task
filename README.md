@@ -25,9 +25,6 @@ To start this app, perform the following step in order
 1. Clone this repo to your machine 
 ```
 ```
-2. cd into the backend folder
-```
-```
 2. run "npm install" on the root directory of the project
 ```
 ```
@@ -56,7 +53,7 @@ For easy references and development, please adhere to the following code style
 1. Air-bnb standards
 ```
 ```
-2. Other rules from [nodejs rules]  (https://gist.github.com/jattoabdul/b9d4d9a9dbc15d359c81eb843d00123f)
+2. Other rules for [Nodejs](https://gist.github.com/jattoabdul/b9d4d9a9dbc15d359c81eb843d00123f)
 ```
 
 ## Deployment
