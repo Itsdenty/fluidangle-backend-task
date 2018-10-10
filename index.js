@@ -4,7 +4,10 @@ import cors from 'cors';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
+import validator from 'express-validator';
 import routes from './routes';
+import customValidator from './middlewares/validators/custom-validator';
+import customSanitizer from './middlewares/validators/custom-sanitizer';
 
 
 const app = express(),
@@ -12,6 +15,9 @@ const app = express(),
 
 // logger
 app.use(morgan('dev'));
+
+// configure validator
+app.use(validator({ customValidators: customValidator, customSanitizers: customSanitizer }));
 
 // 3rd party middleware
 app.use(cors());
