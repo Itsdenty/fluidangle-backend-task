@@ -1,8 +1,5 @@
-import bcrypt from 'bcrypt';
 import transformer from '../utils/transformer';
-// import processor from '../processors/user';
-const processor = {};
-processor.createUser = req => req.body.email;
+import processor from '../processors/user';
 
 /**
  *
@@ -10,7 +7,6 @@ processor.createUser = req => req.body.email;
  * @class userController
  */
 class userController {
-
   /**
    *
    *
@@ -21,12 +17,9 @@ class userController {
    * @returns {*} createUser
    */
   static async userCreate(req, res) {
-    const hashPassword = bcrypt.hashSync(req.body.password, 10);
-    const email = req.body.email.trim().toLowerCase();
-    req.body.email = email;
-    req.body.password = hashPassword;
+    const { user } = req.body;
     try {
-      const createUser = await processor.createUser(req);
+      const createUser = await processor.createUser(user);
       res.send(transformer.transformResponse(1, 'ok', createUser));
     } catch (error) {
       res.send(transformer.transformResponse(1, 'ok', error));

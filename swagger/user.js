@@ -164,4 +164,3 @@
  *         schema:
  *           $ref: '#/definitions/ErrorObject'
  */
-"use strict";

@@ -13,7 +13,7 @@ const swaggerDefinition = {
     description: 'Api documentation for the TSS inventory app.',
   },
   host: 'localhost:3100/',
-  basePath: '/api/v1',
+  basePath: 'api/v1',
 };
 
 

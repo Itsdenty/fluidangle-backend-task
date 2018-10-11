@@ -11,18 +11,10 @@ const user = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      set: (value) => {
-        this.setDataValue('name', value.toUpperCase());
-      },
-      get: () => this.getDataValue('name').toLowerCase()
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-      set: (value) => {
-        this.setDataValue('name', value.toUpperCase());
-      },
-      get: () => this.getDataValue('name').toLowerCase()
     },
     email: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -30,7 +22,7 @@ const user = (sequelize, DataTypes) => {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     eletedAt: 'deleted_at',
-    tableName: 'states',
+    tableName: 'users',
     timestamps: true,
     paranoid: true,
     underscored: true,
@@ -40,12 +32,12 @@ const user = (sequelize, DataTypes) => {
     },
     scopes: {
     },
+    freezeTableName: true,
     beforeCreate: async (usr) => {
       const salt = await bcrypt.genSalt(15);
       user.password = await bcrypt.hash(usr.password, salt);
-    }
+    },
   });
-
   User.prototype.validPassword = async password => bcrypt.compare(password, this.password);
 
   return User;
