@@ -2,7 +2,7 @@ engines:
   duplication:
     enabled: true
 checks:
-  Similar code:
+  similar-code:
   enabled: false
 config:
   languages:
@@ -11,10 +11,11 @@ fixme:
   enabled: true
 ratings:
   paths:
-    - "server/*.js"
-    - "server/**/*.js"
-    - "server/tests/**/*.js"
-exclude_paths:
+    - "/*.js"
+    - "/**/*.js"
+    - "/**/**/*.js"
+exclude_patterns:
   - node_modules/
   - server/dummyData/
-  - UI/
+  - view/
+  - public/

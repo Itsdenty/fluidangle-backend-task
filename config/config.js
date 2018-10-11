@@ -22,5 +22,12 @@ module.exports = {
     database: process.env.POSTGRES_DATABASE,
     host: process.env.POSTGRES_HOST,
     dialect: 'postgres'
+  },
+  travis: {
+    username: 'postgress',
+    password: '',
+    database: 'travis_ci_test',
+    host: 'localhost',
+    dialect: 'postgress'
   }
 };
