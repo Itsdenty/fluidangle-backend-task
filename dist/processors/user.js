@@ -6,29 +6,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _bcrypt = require('bcrypt');
+var _models = require('../database/models');
 
-var _bcrypt2 = _interopRequireDefault(_bcrypt);
-
-var _jsonwebtoken = require('jsonwebtoken');
-
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-
-var _pg = require('pg');
+var _models2 = _interopRequireDefault(_models);
 
 var _createToken = require('../utils/createToken');
 
 var _createToken2 = _interopRequireDefault(_createToken);
 
-var _postgresConfig = require('../config/postgres-config');
-
-var _postgresConfig2 = _interopRequireDefault(_postgresConfig);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var clientPool = new _pg.Pool(_postgresConfig2.default);
 
 var secretKey = process.env.JWT_SECRET;
 
@@ -46,98 +34,76 @@ var userProcessor = function () {
 
     /**
      * @description - Creates a new user in the app and assigns a token to them
-     * @param{Object} req - api request
+     * @param{Object} user - api request
      * @param{Object} res - route response
      * @return{json} the registered user's detail
      */
-    value: async function createUser(req) {
+    value: async function createUser(user) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.User.create(user).then(function (createdUser) {
+          var id = createdUser.id,
+              firstName = createdUser.firstName,
+              lastName = createdUser.lastName,
+              email = createdUser.email;
+          // create the token after all the inputs are certified ok
 
-      // Hash password to save in the database
-      var createUser = 'INSERT INTO aUsers (firstName, lastName, phoneNo, username, email, password)\n                            VALUES ($1, $2, $3, $4, $5, $6)\n                            RETURNING *';
-      try {
-
-        var client = await clientPool.connect();
-
-        var values = [req.body.firstName, req.body.lastName, req.body.phoneNo, req.body.username, email, password];
-
-        var createdUser = await client.query({ text: createUser, values: values });
-
-        var signedupUser = createdUser.rows[0];
-
-        var _createdUser$rows$ = createdUser.rows[0],
-            userId = _createdUser$rows$.userId,
-            firstName = _createdUser$rows$.firstName,
-            lastName = _createdUser$rows$.lastName;
-
-        // create the token after all the inputs are certified ok
-
-        var authToken = _createToken2.default.token({ userId: userId, firstName: firstName, lastName: lastName }, secretKey);
-        client.release();
-        return {
-          message: 'User created successfully',
-          user: signedupUser,
-          token: authToken
-        };
-      } catch (error) {
-        return {
-          message: 'Check your input and try again pls, you might be entering a wrong input'
-        };
-      }
+          var authToken = _createToken2.default.token({
+            id: id, firstName: firstName, lastName: lastName, email: email
+          }, secretKey);
+          var resp = {
+            message: 'User created successfully',
+            user: {
+              id: id, firstName: firstName, lastName: lastName, email: email
+            },
+            token: authToken
+          };
+          resolve(resp);
+        }).catch(_models2.default.Sequelize.ValidationError, function (error) {
+          reject(error.errors);
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
     }
-  }, {
-    key: 'loginUser',
-
 
     /**
      * @description - Signs a user in by creating a session token
-     * @param{Object} req - api request
+     * @param{Object} login - api request
      * @param{Object} res - route response
      * @return{json} the user's login status
      */
-    value: async function loginUser(req) {
-      var email = req.body.email.trim().toLowerCase();
-      var findOneUser = 'SELECT * FROM aUsers\n                          WHERE email = $1';
-      // checks if a token was passed into the request header
-      if (req.headers.authorization) {
-        try {
-          var token = req.headers.authorization.split(' ')[1];
-          var decoded = _jsonwebtoken2.default.verify(token, secretKey);
-          req.userData = decoded.userid;
-          if (req.userData !== null) {
-            return { message: 'You are already logged in' };
-          }
-        } catch (error) {
-          return { message: 'Token is invalid or has expired, Please re-login' };
-        }
-      }
-      try {
-        var client = await clientPool.connect();
-        //find a user with the given email
-        var user = await client.query({ text: findOneUser, values: [email] });
-        if (user.rows[0]) {
-          var signedInUser = user.rows[0];
-          //check it the password matches
-          var correctPassword = await _bcrypt2.default.compare(req.body.password, user.rows[0].password);
-          if (!correctPassword) {
-            return { message: 'wrong password!' };
-          } else {
-            // creates a token that lasts for 24 hours
-            var _user$rows$ = user.rows[0],
-                userid = _user$rows$.userid,
-                firstname = _user$rows$.firstname,
-                lastname = _user$rows$.lastname;
 
-            var authToken = _createToken2.default.token({ userid: userid, firstname: firstname, lastname: lastname }, secretKey);
-            return {
-              message: 'You are logged in!',
-              token: authToken,
-              user: signedInUser
+  }, {
+    key: 'loginUser',
+    value: async function loginUser(login) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.User.findOne({ where: { email: login.email } }).then(function (user) {
+          if (!user) {
+            reject(new Error('unable to get user details'));
+          } else if (!user.validPassword(login.password)) {
+            reject(new Error('invalid password supplied'));
+          } else {
+            var authUser = user,
+                id = authUser.id,
+                firstName = authUser.firstName,
+                lastName = authUser.lastName,
+                email = authUser.email;
+
+
+            var authToken = _createToken2.default.token({
+              id: id, firstName: firstName, lastName: lastName, email: email
+            }, secretKey);
+            var resp = {
+              message: 'User loggedin successfully',
+              user: {
+                id: id, firstName: firstName, lastName: lastName, email: email
+              },
+              token: authToken
             };
+            resolve(resp);
           }
-        }
-      } catch (error) {
-        return { message: 'An error occured' };
-      }
+        });
+      });
     }
   }]);
 

@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _user = require('./user');
+var _swaggerJsdoc = require('swagger-jsdoc');
 
-var _user2 = _interopRequireDefault(_user);
+var _swaggerJsdoc2 = _interopRequireDefault(_swaggerJsdoc);
 
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _swaggerJsdoc = require('swagger-jsdoc');
+var _user = require('./user');
 
-var _swaggerJsdoc2 = _interopRequireDefault(_swaggerJsdoc);
+var _user2 = _interopRequireDefault(_user);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,7 +28,7 @@ var swaggerDefinition = {
     description: 'Api documentation for the TSS inventory app.'
   },
   host: 'localhost:3100/',
-  basePath: '/api/v1'
+  basePath: 'api/v1'
 };
 
 // options for the swagger docs

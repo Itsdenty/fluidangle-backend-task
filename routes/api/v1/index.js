@@ -1,27 +1,27 @@
-import user from './user';
-import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import express from 'express';
+import user from './user';
 
 const router = express.Router();
 
 
 // Swagger jsdoc configuration
-let swaggerDefinition = {
+const swaggerDefinition = {
   info: {
     title: 'Node Swagger API',
     version: '1.0.0',
     description: 'Api documentation for the TSS inventory app.',
   },
   host: 'localhost:3100/',
-  basePath: '/api/v1',
+  basePath: 'api/v1',
 };
 
 
 // options for the swagger docs
-let options = {
+const options = {
 
   // import swaggerDefinitions
-  swaggerDefinition: swaggerDefinition,
+  swaggerDefinition,
 
   // path to the API docs
   apis: ['./swagger/*.js']
@@ -29,10 +29,10 @@ let options = {
 };
 
 // initialize swagger-jsdoc
-let swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options);
 
 
-router.get('/swagger.json', function(req, res){
+router.get('/swagger.json', (req, res) => {
   res.header('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
