@@ -19,11 +19,11 @@ class userProcessor {
         .create(user)
         .then((createdUser) => {
           const {
-            _id, firstName, lastName, email
+            id, firstName, lastName, email
           } = createdUser;
           // create the token after all the inputs are certified ok
           const authToken = createToken.token({
-            _id, firstName, lastName, email
+            id, firstName, lastName, email
           }, secretKey);
           const resp = {
             message: 'User created successfully',

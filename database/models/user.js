@@ -24,7 +24,7 @@ const user = (sequelize, DataTypes) => {
   }, {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    eletedAt: 'deleted_at',
+    deletedAt: 'deleted_at',
     tableName: 'users',
     timestamps: true,
     paranoid: true,
@@ -41,7 +41,9 @@ const user = (sequelize, DataTypes) => {
       user.password = await bcrypt.hash(usr.password, salt);
     },
   });
-  User.prototype.validPassword = async password => bcrypt.compare(password, this.password);
+  User.prototype.validPassword = async function validPassword(password) {
+    bcrypt.compare(password, this.password);
+  };
 
   return User;
 };
