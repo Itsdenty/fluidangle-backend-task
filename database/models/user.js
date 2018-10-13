@@ -29,7 +29,6 @@ const user = (sequelize, DataTypes) => {
     timestamps: true,
     paranoid: true,
     underscored: true,
-    freezeTableName: true,
     beforeCreate: async (usr) => {
       const salt = await bcrypt.genSalt(15);
       user.password = await bcrypt.hash(usr.password, salt);
