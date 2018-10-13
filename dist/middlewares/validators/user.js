@@ -22,4 +22,11 @@ Validator.create = function (req, res, next) {
   });
 };
 
+Validator.login = function (req, res, next) {
+  req.checkBody('login.email', 'please supply a valid email').notEmpty().isEmailV2();
+  req.checkBody('login.password', 'Please supply a valid password').isMinLen(6).isMaxLen(50);
+  req.asyncValidationErrors().then(next).catch(function (errors) {
+    return res.status(400).json(_transformer2.default.transformResponse(0, _transformer2.default.transformExpressValidationErrors(errors), errors));
+  });
+};
 exports.default = Validator;

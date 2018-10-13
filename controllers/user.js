@@ -26,15 +26,23 @@ class userController {
     }
   }
 
-  // static async userLogin  (req, res) {
-  //   try{
-  //     const loginUser = await processor.loginUser(req);
-  //     res.send(transformer.transformResponse(1, 'ok', loginUser));
-  //   }
-  //   catch(error) {
-  //     res.send(transformer.transformResponse(1, 'ok', error))
-  //   }
-  // };
+  /**
+   *
+   *
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @returns {Object} loginUser
+   * @memberof userController
+   */
+  static async login(req, res) {
+    try {
+      const loginUser = await processor.loginUser(req.body.login);
+      res.send(transformer.transformResponse(1, 'ok', loginUser));
+    } catch (error) {
+      res.send(transformer.transformResponse(1, 'ok', error));
+    }
+  }
 
   // static userLogout (req, res) {
   //   res.send(transformer.transformResponse(1, 'ok', 'user logged out'));

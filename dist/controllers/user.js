@@ -51,15 +51,26 @@ var userController = function () {
       }
     }
 
-    // static async userLogin  (req, res) {
-    //   try{
-    //     const loginUser = await processor.loginUser(req);
-    //     res.send(transformer.transformResponse(1, 'ok', loginUser));
-    //   }
-    //   catch(error) {
-    //     res.send(transformer.transformResponse(1, 'ok', error))
-    //   }
-    // };
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @returns {Object} loginUser
+     * @memberof userController
+     */
+
+  }, {
+    key: 'login',
+    value: async function login(req, res) {
+      try {
+        var loginUser = await _user2.default.loginUser(req.body.login);
+        res.send(_transformer2.default.transformResponse(1, 'ok', loginUser));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(1, 'ok', error));
+      }
+    }
 
     // static userLogout (req, res) {
     //   res.send(transformer.transformResponse(1, 'ok', 'user logged out'));

@@ -12,9 +12,9 @@ module.exports = {
     dialect: 'postgres'
   },
   test: {
-    username: 'root',
-    password: null,
-    database: 'database_test',
+    username: 'postgres',
+    password: 'postgres',
+    database: 'fluid-angle-test',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
@@ -24,5 +24,12 @@ module.exports = {
     database: process.env.POSTGRES_DATABASE,
     host: process.env.POSTGRES_HOST,
     dialect: 'postgres'
+  },
+  travis: {
+    username: 'postgress',
+    password: '',
+    database: 'travis_ci_test',
+    host: 'localhost',
+    dialect: 'postgress'
   }
 };

@@ -1,4 +1,4 @@
-import database from '../database/models'
+import database from '../database/models';
 import createToken from '../utils/createToken';
 
 const secretKey = process.env.JWT_SECRET;
@@ -18,7 +18,6 @@ class userProcessor {
       database.User
         .create(user)
         .then((createdUser) => {
-          console.log(createdUser);
           const {
             _id, firstName, lastName, email
           } = createdUser;
@@ -28,7 +27,9 @@ class userProcessor {
           }, secretKey);
           const resp = {
             message: 'User created successfully',
-            user: createdUser,
+            user: {
+              _id, firstName, lastName, email
+            },
             token: authToken,
           };
           resolve(resp);
@@ -39,13 +40,42 @@ class userProcessor {
         .catch(error => reject(error));
     });
   }
+
+
   /**
    * @description - Signs a user in by creating a session token
-   * @param{Object} req - api request
+   * @param{Object} login - api request
    * @param{Object} res - route response
    * @return{json} the user's login status
    */
-  // static async loginUser (req) {
+  static async loginUser(login) {
+    return new Promise((resolve, reject) => {
+      database.User.findOne({ where: { email: login.email } }).then((user) => {
+        if (!user) {
+          reject(new Error('unable to get user details'));
+        } else if (!user.validPassword(login.password)) {
+          reject(new Error('invalid password supplied'));
+        } else {
+          const authUser = user,
+            {
+              _id, firstName, lastName, email
+            } = authUser;
+
+          const authToken = createToken.token({
+            _id, firstName, lastName, email
+          }, secretKey);
+          const resp = {
+            message: 'User loggedin successfully',
+            user: {
+              _id, firstName, lastName, email
+            },
+            token: authToken,
+          };
+          resolve(resp);
+        }
+      });
+    });
+  }
   //   const email = req.body.email.trim().toLowerCase();
   //   const findOneUser = `SELECT * FROM aUsers
   //                         WHERE email = $1`;
@@ -91,7 +121,6 @@ class userProcessor {
   //   catch(error){
   //     return{ message: 'An error occured'};
   //   }
-  // }
 }
 
 export default userProcessor;

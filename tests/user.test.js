@@ -6,23 +6,43 @@ import app from '../index';
 //     expect = require('chai').expect,
 //     request = require('supertest');
 
+/**
+ *
+ *
+ * @returns {String} fstring
+ */
+function generateDummyName() {
+  const xterBank = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let fstring = '';
+  for (let i = 0; i < 7; i += 1) {
+    fstring += xterBank[parseInt(Math.random() * 52, 10)];
+  }
+  return fstring;
+}
+
+
+const
+  emailFrag1 = generateDummyName(),
+  emailFrag2 = emailFrag1.substring(0, 4),
+  email = `${emailFrag1}@${emailFrag2}.com`;
+
+
 describe('User API endpoints intgeration Tests', () => {
   const user = {
     user: {
-      username: 'test-name',
+      firstName: 'test-firstname',
+      lastName: 'test-lastname',
       password: 'password1234',
-      email: 'dent4reanltt@gmail.com',
-      role: '5b4fafca821cf474ccf0a221',
-      phone_number: '08169086013',
+      email,
     }
   };
 
-  // let login = {
-  //     'user': {
-  //         'email': 'dent4real@yahoo.com',
-  //         'password': 'superduperpassword',
-  //     }
-  // };
+  const login = {
+    login: {
+      email,
+      password: 'password1234',
+    }
+  };
 
   // let token = "";
 
@@ -34,14 +54,27 @@ describe('User API endpoints intgeration Tests', () => {
 
   describe('#POST / user', () => {
     it('should create a single user', (done) => {
-      request(app).post('/apis/v1/user').send(user)
+      request(app).post('/api/v1/user').send(user)
         .end((err, res) => {
           if (err) return done(err);
           expect(res.statusCode).to.equal(200);
           expect(res.body).to.be.an('object');
           expect(res.body.payload).to.be.an('object');
-          expect(res.body.payload.role).to.be.an('object');
-          expect(res.body.payload.permissions).to.be.an('array');
+          expect(res.body.responseCode).to.equal(1);
+          expect(res.body.responseText).to.equal('ok');
+          user.user = res.body.payload;
+          done();
+        });
+    });
+  });
+  describe('#POST / user login', () => {
+    it('should login a user', (done) => {
+      request(app).post('/api/v1/user/login').send(login)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body.payload).to.be.an('object');
           expect(res.body.responseCode).to.equal(1);
           expect(res.body.responseText).to.equal('ok');
           user.user = res.body.payload;

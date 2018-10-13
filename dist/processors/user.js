@@ -41,7 +41,6 @@ var userProcessor = function () {
     value: async function createUser(user) {
       return new Promise(function (resolve, reject) {
         _models2.default.User.create(user).then(function (createdUser) {
-          console.log(createdUser);
           var _id = createdUser._id,
               firstName = createdUser.firstName,
               lastName = createdUser.lastName,
@@ -64,13 +63,46 @@ var userProcessor = function () {
         });
       });
     }
+
     /**
      * @description - Signs a user in by creating a session token
-     * @param{Object} req - api request
+     * @param{Object} login - api request
      * @param{Object} res - route response
      * @return{json} the user's login status
      */
-    // static async loginUser (req) {
+
+  }, {
+    key: 'loginUser',
+    value: async function loginUser(login) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.User.findOne({ where: { email: login.email } }).then(function (user) {
+          if (!user) {
+            reject(new Error('unable to get user details'));
+          } else if (!user.validPassword(login.password)) {
+            reject(new Error('invalid password supplied'));
+          } else {
+            var authUser = user,
+                _id = authUser._id,
+                firstName = authUser.firstName,
+                lastName = authUser.lastName,
+                email = authUser.email;
+
+
+            var authToken = _createToken2.default.token({
+              _id: _id, firstName: firstName, lastName: lastName, email: email
+            }, secretKey);
+            var resp = {
+              message: 'User loggedin successfully',
+              user: {
+                _id: _id, firstName: firstName, lastName: lastName, email: email
+              },
+              token: authToken
+            };
+            resolve(resp);
+          }
+        });
+      });
+    }
     //   const email = req.body.email.trim().toLowerCase();
     //   const findOneUser = `SELECT * FROM aUsers
     //                         WHERE email = $1`;
@@ -116,7 +148,6 @@ var userProcessor = function () {
     //   catch(error){
     //     return{ message: 'An error occured'};
     //   }
-    // }
 
   }]);
 
