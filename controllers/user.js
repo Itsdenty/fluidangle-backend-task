@@ -22,7 +22,7 @@ class userController {
       const createUser = await processor.createUser(user);
       res.send(transformer.transformResponse(1, 'ok', createUser));
     } catch (error) {
-      res.send(transformer.transformResponse(1, 'ok', error));
+      res.send(transformer.transformResponse(0, 'ok', error));
     }
   }
 
@@ -40,7 +40,7 @@ class userController {
       const loginUser = await processor.loginUser(req.body.login);
       res.send(transformer.transformResponse(1, 'ok', loginUser));
     } catch (error) {
-      res.send(transformer.transformResponse(1, 'ok', error));
+      res.send(transformer.transformResponse(0, 'ok', error));
     }
   }
 

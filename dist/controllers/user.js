@@ -47,7 +47,7 @@ var userController = function () {
         var createUser = await _user2.default.createUser(user);
         res.send(_transformer2.default.transformResponse(1, 'ok', createUser));
       } catch (error) {
-        res.send(_transformer2.default.transformResponse(1, 'ok', error));
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
     }
 
@@ -68,7 +68,7 @@ var userController = function () {
         var loginUser = await _user2.default.loginUser(req.body.login);
         res.send(_transformer2.default.transformResponse(1, 'ok', loginUser));
       } catch (error) {
-        res.send(_transformer2.default.transformResponse(1, 'ok', error));
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
     }
 

@@ -41,18 +41,20 @@ var userProcessor = function () {
     value: async function createUser(user) {
       return new Promise(function (resolve, reject) {
         _models2.default.User.create(user).then(function (createdUser) {
-          var _id = createdUser._id,
+          var id = createdUser.id,
               firstName = createdUser.firstName,
               lastName = createdUser.lastName,
               email = createdUser.email;
           // create the token after all the inputs are certified ok
 
           var authToken = _createToken2.default.token({
-            _id: _id, firstName: firstName, lastName: lastName, email: email
+            id: id, firstName: firstName, lastName: lastName, email: email
           }, secretKey);
           var resp = {
             message: 'User created successfully',
-            user: createdUser,
+            user: {
+              id: id, firstName: firstName, lastName: lastName, email: email
+            },
             token: authToken
           };
           resolve(resp);
@@ -82,19 +84,19 @@ var userProcessor = function () {
             reject(new Error('invalid password supplied'));
           } else {
             var authUser = user,
-                _id = authUser._id,
+                id = authUser.id,
                 firstName = authUser.firstName,
                 lastName = authUser.lastName,
                 email = authUser.email;
 
 
             var authToken = _createToken2.default.token({
-              _id: _id, firstName: firstName, lastName: lastName, email: email
+              id: id, firstName: firstName, lastName: lastName, email: email
             }, secretKey);
             var resp = {
               message: 'User loggedin successfully',
               user: {
-                _id: _id, firstName: firstName, lastName: lastName, email: email
+                id: id, firstName: firstName, lastName: lastName, email: email
               },
               token: authToken
             };
@@ -103,52 +105,6 @@ var userProcessor = function () {
         });
       });
     }
-    //   const email = req.body.email.trim().toLowerCase();
-    //   const findOneUser = `SELECT * FROM aUsers
-    //                         WHERE email = $1`;
-    //   // checks if a token was passed into the request header
-    //   if (req.headers.authorization) {
-    //     try {
-    //       const token = req.headers.authorization.split(' ')[1];
-    //       const decoded = jwt.verify(token, secretKey);
-    //       req.userData = decoded.userid;
-    //       if (req.userData !== null) {
-    //         return {message: 'You are already logged in'};
-    //       }
-    //     }
-    //     catch (error) {
-    //       return {message: 'Token is invalid or has expired, Please re-login'};
-    //     }
-    //   }
-    //   try {
-    //     const client = await clientPool.connect();
-    //     //find a user with the given email
-    //     const user = await client.query({text : findOneUser, values: [email]});
-    //     if (user.rows[0]) {
-    //       const signedInUser = user.rows[0];
-    //       //check it the password matches
-    //       const correctPassword = await bcrypt.compare(req.body.password, user.rows[0].password);
-    //       if( !correctPassword) {
-    //         return { message: 'wrong password!'};
-    //       }
-    //       else {
-    //         // creates a token that lasts for 24 hours
-    //         const {
-    //           userid, firstname, lastname
-    //         } = user.rows[0];
-    //         const authToken = createToken.token({ userid, firstname, lastname }, secretKey);
-    //         return {
-    //           message: 'You are logged in!',
-    //           token: authToken,
-    //           user: signedInUser
-    //         };
-    //       }
-    //     }
-    //   }
-    //   catch(error){
-    //     return{ message: 'An error occured'};
-    //   }
-
   }]);
 
   return userProcessor;

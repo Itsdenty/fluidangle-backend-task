@@ -28,7 +28,7 @@ class userProcessor {
           const resp = {
             message: 'User created successfully',
             user: {
-              _id, firstName, lastName, email
+              id, firstName, lastName, email
             },
             token: authToken,
           };
@@ -58,16 +58,16 @@ class userProcessor {
         } else {
           const authUser = user,
             {
-              _id, firstName, lastName, email
+              id, firstName, lastName, email
             } = authUser;
 
           const authToken = createToken.token({
-            _id, firstName, lastName, email
+            id, firstName, lastName, email
           }, secretKey);
           const resp = {
             message: 'User loggedin successfully',
             user: {
-              _id, firstName, lastName, email
+              id, firstName, lastName, email
             },
             token: authToken,
           };
@@ -76,51 +76,6 @@ class userProcessor {
       });
     });
   }
-  //   const email = req.body.email.trim().toLowerCase();
-  //   const findOneUser = `SELECT * FROM aUsers
-  //                         WHERE email = $1`;
-  //   // checks if a token was passed into the request header
-  //   if (req.headers.authorization) {
-  //     try {
-  //       const token = req.headers.authorization.split(' ')[1];
-  //       const decoded = jwt.verify(token, secretKey);
-  //       req.userData = decoded.userid;
-  //       if (req.userData !== null) {
-  //         return {message: 'You are already logged in'};
-  //       }
-  //     }
-  //     catch (error) {
-  //       return {message: 'Token is invalid or has expired, Please re-login'};
-  //     }
-  //   }
-  //   try {
-  //     const client = await clientPool.connect();
-  //     //find a user with the given email
-  //     const user = await client.query({text : findOneUser, values: [email]});
-  //     if (user.rows[0]) {
-  //       const signedInUser = user.rows[0];
-  //       //check it the password matches
-  //       const correctPassword = await bcrypt.compare(req.body.password, user.rows[0].password);
-  //       if( !correctPassword) {
-  //         return { message: 'wrong password!'};
-  //       }
-  //       else {
-  //         // creates a token that lasts for 24 hours
-  //         const {
-  //           userid, firstname, lastname
-  //         } = user.rows[0];
-  //         const authToken = createToken.token({ userid, firstname, lastname }, secretKey);
-  //         return {
-  //           message: 'You are logged in!',
-  //           token: authToken,
-  //           user: signedInUser
-  //         };
-  //       }
-  //     }
-  //   }
-  //   catch(error){
-  //     return{ message: 'An error occured'};
-  //   }
 }
 
 export default userProcessor;

@@ -34,23 +34,19 @@ var user = function user(sequelize, DataTypes) {
   }, {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    eletedAt: 'deleted_at',
+    deletedAt: 'deleted_at',
     tableName: 'users',
     timestamps: true,
     paranoid: true,
     underscored: true,
-    defaultScope: {
-      where: {}
-    },
-    scopes: {},
     freezeTableName: true,
     beforeCreate: async function beforeCreate(usr) {
       var salt = await _bcrypt2.default.genSalt(15);
       user.password = await _bcrypt2.default.hash(usr.password, salt);
     }
   });
-  User.prototype.validPassword = async function (password) {
-    return _bcrypt2.default.compare(password, undefined.password);
+  User.prototype.validPassword = async function validPassword(password) {
+    _bcrypt2.default.compare(password, this.password);
   };
 
   return User;

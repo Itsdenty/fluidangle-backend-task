@@ -26,10 +26,10 @@ module.exports = {
     dialect: 'postgres'
   },
   travis: {
-    username: 'postgress',
+    username: 'postgres',
     password: '',
     database: 'travis_ci_test',
     host: 'localhost',
-    dialect: 'postgress'
+    dialect: 'postgres'
   }
 };

@@ -29,12 +29,6 @@ const user = (sequelize, DataTypes) => {
     timestamps: true,
     paranoid: true,
     underscored: true,
-    defaultScope: {
-      where: {
-      }
-    },
-    scopes: {
-    },
     freezeTableName: true,
     beforeCreate: async (usr) => {
       const salt = await bcrypt.genSalt(15);
