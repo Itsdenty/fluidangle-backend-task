@@ -34,6 +34,10 @@ var _routes = require('./routes');
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _models = require('./database/models');
+
+var _models2 = _interopRequireDefault(_models);
+
 var _customValidator = require('./middlewares/validators/custom-validator');
 
 var _customValidator2 = _interopRequireDefault(_customValidator);
@@ -63,8 +67,11 @@ app.use('/api-docs', _express2.default.static(_path2.default.join(__dirname, '..
 // use the defined routes
 app.use('/', _routes2.default);
 
-app.listen(port || 3000, function () {
-  return console.log('Started on port ' + port);
+// sync() will create all table if they doesn't exist in database
+_models2.default.sequelize.sync().then(function () {
+  app.listen(port || 3000, function () {
+    return console.log('Started on port ' + port);
+  });
 });
 
 exports.default = app;

@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import validator from 'express-validator';
 import routes from './routes';
+import models from './database/models';
 import customValidator from './middlewares/validators/custom-validator';
 import customSanitizer from './middlewares/validators/custom-sanitizer';
 
@@ -29,8 +30,10 @@ app.use('/api-docs', express.static(path.join(__dirname, '../public/api-docs')))
 // use the defined routes
 app.use('/', routes);
 
-
-app.listen(port || 3000, () => console.log(`Started on port ${port}`));
+// sync() will create all table if they doesn't exist in database
+models.sequelize.sync().then(() => {
+  app.listen(port || 3000, () => console.log(`Started on port ${port}`));
+});
 
 
 export default app;

@@ -8,7 +8,7 @@
   },
   "main": "dist",
   "scripts": {
-    "build": "NODE_ENV=development rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./public,./.babelrc,./package.json,./npm-debug.log,./test --copy-files && npm run sequelize db:migrate",
+    "build": "NODE_ENV=development rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./public,./.babelrc,./package.json,./npm-debug.log,./test --copy-files",
     "start": "npm run build && node dist/index.js",
     "test": "NODE_ENV=test npm run sequelize db:migrate && nyc mocha --timeout 10000 tests/*.test.js --exit --compilers js:babel-register",
     "travis": "NODE_ENV=travis npm run sequelize db:migrate && nyc mocha --timeout 20000 tests/*.test.js --exit --compilers js:babel-register",

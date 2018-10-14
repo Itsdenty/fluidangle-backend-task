@@ -35,7 +35,13 @@ var sequelize = {};
 _sequelize2.default.useCLS(namespace);
 
 if (config.use_env_variable) {
-  sequelize = new _sequelize2.default(process.env[config.use_env_variable]);
+  sequelize = new _sequelize2.default(process.env[config.use_env_variable], {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    port: 5432,
+    host: 'https://dry-inlet-28030.herokuapp.com/api/v1',
+    logging: true // false
+  });
 } else {
   sequelize = new _sequelize2.default(config.database, config.username, config.password, config.options);
 }
