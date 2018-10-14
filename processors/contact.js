@@ -27,6 +27,32 @@ class contactProcessor {
         .catch(error => reject(error));
     });
   }
+
+  /**
+   * @description - Signs a user in by creating a session token
+   * @param{Object} userId - api request
+   * @param{Object} res - route response
+   * @return{json} the user's login status
+   */
+  static async getContacts(userId) {
+    return new Promise((resolve, reject) => {
+      database.Contact.findAll({ where: { userId } }).then((contacts) => {
+        const resp = {
+          message: 'User contacts retrieved successfully successfully',
+          contacts,
+        };
+        resolve(resp);
+      })
+        .catch(database.Sequelize.ValidationError, (error) => {
+          console.log(error);
+          reject(error.errors);
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
 }
 
 export default contactProcessor;

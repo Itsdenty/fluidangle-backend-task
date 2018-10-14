@@ -33,7 +33,6 @@ var contactProcessor = function () {
      */
     value: async function createContact(contact) {
       return new Promise(function (resolve, reject) {
-        console.log(contact);
         _models2.default.Contact.create(contact).then(function (createdContact) {
           var resp = {
             message: 'Contact created successfully',
@@ -41,11 +40,36 @@ var contactProcessor = function () {
           };
           resolve(resp);
         }).catch(_models2.default.Sequelize.ValidationError, function (error) {
+          reject(error.errors);
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+
+    /**
+     * @description - Signs a user in by creating a session token
+     * @param{Object} userId - api request
+     * @param{Object} res - route response
+     * @return{json} the user's login status
+     */
+
+  }, {
+    key: 'getContacts',
+    value: async function getContacts(userId) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.Contact.findAll({ where: { userId: userId } }).then(function (contacts) {
+          var resp = {
+            message: 'User contacts retrieved successfully successfully',
+            contacts: contacts
+          };
+          resolve(resp);
+        }).catch(_models2.default.Sequelize.ValidationError, function (error) {
           console.log(error);
           reject(error.errors);
         }).catch(function (error) {
-          reject(error);
           console.log(error);
+          reject(error);
         });
       });
     }

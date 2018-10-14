@@ -29,7 +29,7 @@ var contactController = function () {
   }
 
   _createClass(contactController, null, [{
-    key: 'contactCreate',
+    key: 'createContact',
 
     /**
      *
@@ -40,13 +40,35 @@ var contactController = function () {
      * @memberof contactController
      * @returns {*} createContact
      */
-    value: async function contactCreate(req, res) {
+    value: async function createContact(req, res) {
       var contact = req.body.contact;
 
       contact.userId = req.decodedToken.id;
       try {
         var createContact = await _contact2.default.createContact(contact);
         res.send(_transformer2.default.transformResponse(1, 'ok', createContact));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
+      }
+    }
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof contactController
+     * @returns {*} userContacts
+     */
+
+  }, {
+    key: 'getContacts',
+    value: async function getContacts(req, res) {
+      var userId = req.decodedToken.id;
+      try {
+        var userContacts = await _contact2.default.getContacts(userId);
+        res.send(_transformer2.default.transformResponse(1, 'ok', userContacts));
       } catch (error) {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
