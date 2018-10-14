@@ -22,10 +22,9 @@ const user = (sequelize, DataTypes) => {
     },
     password: DataTypes.STRING,
   }, {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at',
-    tableName: 'users',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
     timestamps: true,
     paranoid: true,
     underscored: true,

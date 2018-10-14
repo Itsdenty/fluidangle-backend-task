@@ -30,10 +30,6 @@ checks:
   identical-code:
     config:
       threshold: 45 # language-specific defaults. an override will affect all languages.
-  paths:
-    - "/*.js"
-    - "/**/*.js"
-    - "/**/**/*.js"
 exclude_patterns:
   - node_modules/
   - server/dummyData/
