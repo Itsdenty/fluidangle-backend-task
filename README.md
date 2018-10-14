@@ -54,11 +54,12 @@ For easy references and development, please adhere to the following code style
 ```
 ```
 2. Other rules for [Nodejs](https://gist.github.com/jattoabdul/b9d4d9a9dbc15d359c81eb843d00123f)
-```
+``` 
 
-## Deployment
-
-Add you can push to heroku by swithing to the api-production branch and running 'git push heroku api-production:master' 
+## example api
+swagger api documentation is available at https://dry-inlet-28030.herokuapp.com/api-docs/
+You can test the endpoints at the swagger ui at the heroku url.
+ 
 ## Built With
 
 * [Express](http://www.express.io) - The web framework used
