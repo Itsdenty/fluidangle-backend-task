@@ -28,4 +28,5 @@ router.post('/', _auth2.default.verifyToken, _contact4.default.create, _contact2
 router.patch('/:id', _auth2.default.verifyToken, _contact4.default.update, _contact2.default.updateContact);
 router.get('/', _auth2.default.verifyToken, _contact2.default.getContacts);
 router.get('/:id', _auth2.default.verifyToken, _contact2.default.getContact);
+router.delete('/:id', _auth2.default.verifyToken, _contact2.default.deleteContact);
 exports.default = router;

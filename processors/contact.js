@@ -21,7 +21,7 @@ class contactProcessor {
           };
           resolve(resp);
         })
-        .catch(database.Sequelize.ValidationError, 
+        .catch(database.Sequelize.ValidationError,
           error => reject(error.errors))
         .catch(error => reject(error));
     });
@@ -42,7 +42,7 @@ class contactProcessor {
         };
         resolve(resp);
       })
-        .catch(database.Sequelize.ValidationError, 
+        .catch(database.Sequelize.ValidationError,
           error => reject(error.errors))
         .catch(error => reject(error));
     });
@@ -63,9 +63,9 @@ class contactProcessor {
         };
         resolve(resp);
       })
-        .catch(database.Sequelize.ValidationError, 
+        .catch(database.Sequelize.ValidationError,
           error => reject(error.errors))
-        .catch(error =>reject(error));
+        .catch(error => reject(error));
     });
   }
 
@@ -88,14 +88,30 @@ class contactProcessor {
         };
         resolve(resp);
       })
-        .catch(database.Sequelize.ValidationError, (error) => {
-          console.log(error);
-          reject(error.errors);
-        })
-        .catch((error) => {
-          console.log(error);
-          reject(error);
-        });
+        .catch(database.Sequelize.ValidationError,
+          error => reject(error.errors))
+        .catch(error => reject(error));
+    });
+  }
+
+  /**
+   * @description - Signs a user in by creating a session token
+   * @param{Object} userId - api request
+   * @param{Object} id - route response
+   * @return{json} the deletion attempt status
+   */
+  static async deleteContact(userId, id) {
+    return new Promise((resolve, reject) => {
+      database.Contact.destroy({ where: { userId, id } }).then((contact) => {
+        const resp = {
+          message: 'Single contact retrieved successfully',
+          contact,
+        };
+        resolve(resp);
+      })
+        .catch(database.Sequelize.ValidationError,
+          error => reject(error.errors))
+        .catch(error => reject(error));
     });
   }
 }

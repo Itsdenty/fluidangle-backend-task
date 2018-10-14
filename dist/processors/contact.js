@@ -116,11 +116,34 @@ var contactProcessor = function () {
           };
           resolve(resp);
         }).catch(_models2.default.Sequelize.ValidationError, function (error) {
-          console.log(error);
-          reject(error.errors);
+          return reject(error.errors);
         }).catch(function (error) {
-          console.log(error);
-          reject(error);
+          return reject(error);
+        });
+      });
+    }
+
+    /**
+     * @description - Signs a user in by creating a session token
+     * @param{Object} userId - api request
+     * @param{Object} id - route response
+     * @return{json} the deletion attempt status
+     */
+
+  }, {
+    key: 'deleteContact',
+    value: async function deleteContact(userId, id) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.Contact.destroy({ where: { userId: userId, id: id } }).then(function (contact) {
+          var resp = {
+            message: 'Single contact retrieved successfully',
+            contact: contact
+          };
+          resolve(resp);
+        }).catch(_models2.default.Sequelize.ValidationError, function (error) {
+          return reject(error.errors);
+        }).catch(function (error) {
+          return reject(error);
         });
       });
     }

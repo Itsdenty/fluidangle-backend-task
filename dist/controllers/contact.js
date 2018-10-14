@@ -99,14 +99,14 @@ var contactController = function () {
     }
 
     /**
-    *
-    *
-    * @static
-    * @param {*} req
-    * @param {*} res
-    * @memberof contactController
-    * @returns {*} userContacts
-    */
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof contactController
+     * @returns {*} userContacts
+     */
 
   }, {
     key: 'updateContact',
@@ -117,6 +117,30 @@ var contactController = function () {
       try {
         var userContacts = await _contact2.default.updateContact(userId, id, req.body.contact);
         res.send(_transformer2.default.transformResponse(1, 'ok', userContacts));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
+      }
+    }
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof contactController
+     * @returns {*} deletedContact
+     */
+
+  }, {
+    key: 'deleteContact',
+    value: async function deleteContact(req, res) {
+      var userId = req.decodedToken.id;
+      var id = req.params.id;
+
+      try {
+        var deletedContact = await _contact2.default.deleteContact(userId, id);
+        res.send(_transformer2.default.transformResponse(1, 'ok', deletedContact));
       } catch (error) {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }

@@ -9,4 +9,5 @@ router.post('/', jwtVerify.verifyToken, validator.create, controller.createConta
 router.patch('/:id', jwtVerify.verifyToken, validator.update, controller.updateContact);
 router.get('/', jwtVerify.verifyToken, controller.getContacts);
 router.get('/:id', jwtVerify.verifyToken, controller.getContact);
+router.delete('/:id', jwtVerify.verifyToken, controller.deleteContact);
 export default router;
