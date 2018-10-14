@@ -45,6 +45,11 @@ describe('User API endpoints intgeration Tests', () => {
     }
   };
 
+  const update = {
+    contact: {
+      firstName: generateDummyName()
+    }
+  };
   const login = {
     login: {
       email,
@@ -130,6 +135,23 @@ describe('User API endpoints intgeration Tests', () => {
           expect(res.body.payload).to.be.an('object');
           expect(res.body.payload.contact).to.be.an('object');
           expect(res.body.responseCode).to.equal(1);
+          done();
+        });
+    });
+  });
+
+  describe('#POST / contact', () => {
+    it('should edit a single contact', (done) => {
+      request(app).patch(`/api/v1/contact/${contact.contact.id}`).send(update)
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body.payload).to.be.an('object');
+          expect(res.body.responseCode).to.equal(1);
+          expect(res.body.responseText).to.equal('ok');
+          contact.contact = res.body.payload.contact;
           done();
         });
     });
