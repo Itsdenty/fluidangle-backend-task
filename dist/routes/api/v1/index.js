@@ -16,6 +16,10 @@ var _user = require('./user');
 
 var _user2 = _interopRequireDefault(_user);
 
+var _contact = require('./contact');
+
+var _contact2 = _interopRequireDefault(_contact);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
@@ -54,5 +58,6 @@ router.get('/', function (req, res) {
   res.send('You\'ve reached api/v1 routes');
 });
 router.use('/user', _user2.default);
+router.use('/contact', _contact2.default);
 
 exports.default = router;

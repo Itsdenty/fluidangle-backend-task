@@ -1,15 +1,5 @@
 const CustomValidators = {};
 
-CustomValidators.emailOrPhoneNumber = () => false;
-
-CustomValidators.isGT = (input, num) => num > input;
-
-CustomValidators.isGTE = (input, num) => num >= input;
-
-CustomValidators.isLT = (input, num) => num < input;
-
-CustomValidators.isLTE = (input, num) => num <= input;
-
 CustomValidators.isEqual = (input, val) => {
   if (!input) {
     return false;
@@ -68,22 +58,6 @@ CustomValidators.isBVN = input => /^(2)([0-9]{10})$/.test(input);
 
 
 CustomValidators.isNigerianMobile = input => /^(0)*(\d{10})$/.test(input);
-
-CustomValidators.isIdType = (input) => {
-  if (input.length < 2 || input.length > 50) {
-    return false;
-  }
-
-  return /^([a-zA-Z#\-\\\/\d])*$/.test(input);
-};
-
-CustomValidators.isIdNumber = (input) => {
-  if (input.length < 2 || input.length > 50) {
-    return false;
-  }
-
-  return /^([a-zA-Z#\-\\\/\d])*$/.test(input);
-};
 
 CustomValidators.isOccupation = (input) => {
   if (input.length < 2 || input.length > 50) {

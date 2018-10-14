@@ -32,14 +32,12 @@ var user = function user(sequelize, DataTypes) {
     },
     password: DataTypes.STRING
   }, {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    deletedAt: 'deleted_at',
-    tableName: 'users',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
     timestamps: true,
     paranoid: true,
     underscored: true,
-    freezeTableName: true,
     beforeCreate: async function beforeCreate(usr) {
       var salt = await _bcrypt2.default.genSalt(15);
       user.password = await _bcrypt2.default.hash(usr.password, salt);

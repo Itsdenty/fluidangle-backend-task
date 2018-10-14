@@ -1,6 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import express from 'express';
 import user from './user';
+import contact from './contact';
 
 const router = express.Router();
 
@@ -41,5 +42,6 @@ router.get('/', (req, res) => {
   res.send('You\'ve reached api/v1 routes');
 });
 router.use('/user', user);
+router.use('/contact', contact);
 
 export default router;

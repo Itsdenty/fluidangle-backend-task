@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   up: function up(queryInterface, Sequelize) {
-    queryInterface.createTable('users', {
+    queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -24,21 +24,21 @@ exports.default = {
       password: {
         type: Sequelize.STRING(100)
       },
-      created_at: {
+      createdAt: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      updated_at: {
+      updatedAt: {
         type: Sequelize.DATE,
         allowNull: false
       },
-      deleted_at: {
+      deletedAt: {
         type: Sequelize.DATE,
         allowNull: true
       }
     });
   },
   down: function down(queryInterface) {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('Users');
   }
 };
