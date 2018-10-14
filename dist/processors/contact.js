@@ -65,6 +65,31 @@ var contactProcessor = function () {
           };
           resolve(resp);
         }).catch(_models2.default.Sequelize.ValidationError, function (error) {
+          reject(error.errors);
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
+
+    /**
+     * @description - Signs a user in by creating a session token
+     * @param{Object} userId - api request
+     * @param{Object} id - route response
+     * @return{json} the user's login status
+     */
+
+  }, {
+    key: 'getContact',
+    value: async function getContact(userId, id) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.Contact.findOne({ where: { userId: userId, id: id } }).then(function (contact) {
+          var resp = {
+            message: 'Single contact retrieved successfully',
+            contact: contact
+          };
+          resolve(resp);
+        }).catch(_models2.default.Sequelize.ValidationError, function (error) {
           console.log(error);
           reject(error.errors);
         }).catch(function (error) {

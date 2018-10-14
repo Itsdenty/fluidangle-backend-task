@@ -7,4 +7,5 @@ const router = express.Router();
 
 router.post('/', jwtVerify.verifyToken, validator.create, controller.createContact);
 router.get('/', jwtVerify.verifyToken, controller.getContacts);
+router.get('/:id', jwtVerify.verifyToken, controller.getContact);
 export default router;
