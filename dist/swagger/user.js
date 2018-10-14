@@ -12,12 +12,6 @@
  *         type: string
  *       lastName:
  *         type: string
- *       username:
- *         type: string
- *       phoneNo:
- *         type: string
- *         minLength: 11
- *         maxLength: 11
  *       email:
  *         type: string
  *         format: email
@@ -27,6 +21,7 @@
  *     properties:
  *       email:
  *         type: string
+ *         format: email
  *       password:
  *         type: string
  *   UserModel:

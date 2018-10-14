@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import Promise from 'bluebird';
 import { Op } from 'sequelize';
 
 dotenv.config();
@@ -63,24 +62,6 @@ Database.postgres = {
   }
 };
 
-Database.mysql = {
-  database: process.env.POSTGRES_DATABASE,
-  username: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  options: {
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 5000,
-      evict: 5000
-    },
-    host: process.env.POSTGRESS_HOST,
-    dialect: 'postgres',
-    operatorsAliases,
-    timezone: 'Africa/Lagos'
-  }
-};
+Database.currentSQL = Database.postgres;
 
-Database.currentSQL = Database[process.env.SQL_DIALET];
-
-module.exports = Database;
+export default Database;

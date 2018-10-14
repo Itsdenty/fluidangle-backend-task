@@ -14,14 +14,15 @@ var _user = require('../processors/user');
 
 var _user2 = _interopRequireDefault(_user);
 
-var _bcrypt = require('bcrypt');
-
-var _bcrypt2 = _interopRequireDefault(_bcrypt);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ *
+ *
+ * @class userController
+ */
 var userController = function () {
   function userController() {
     _classCallCheck(this, userController);
@@ -29,33 +30,52 @@ var userController = function () {
 
   _createClass(userController, null, [{
     key: 'userCreate',
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof userController
+     * @returns {*} createUser
+     */
     value: async function userCreate(req, res) {
-      var hashPassword = _bcrypt2.default.hashSync(req.body.password, 10);
-      var email = req.body.email.trim().toLowerCase();
-      req.body.email = email;
-      req.body.password = hashPassword;
+      var user = req.body.user;
+
       try {
-        var createUser = await _user2.default.createUser(req);
+        var createUser = await _user2.default.createUser(user);
         res.send(_transformer2.default.transformResponse(1, 'ok', createUser));
       } catch (error) {
-        res.send(_transformer2.default.transformResponse(1, 'ok', error));
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
     }
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @returns {Object} loginUser
+     * @memberof userController
+     */
+
   }, {
-    key: 'userLogin',
-    value: async function userLogin(req, res) {
+    key: 'login',
+    value: async function login(req, res) {
       try {
-        var loginUser = await _user2.default.loginUser(req);
+        var loginUser = await _user2.default.loginUser(req.body.login);
         res.send(_transformer2.default.transformResponse(1, 'ok', loginUser));
       } catch (error) {
-        res.send(_transformer2.default.transformResponse(1, 'ok', error));
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
     }
-  }, {
-    key: 'userLogout',
-    value: function userLogout(req, res) {
-      res.send(_transformer2.default.transformResponse(1, 'ok', 'user logged out'));
-    }
+
+    // static userLogout (req, res) {
+    //   res.send(transformer.transformResponse(1, 'ok', 'user logged out'));
+    // };
+
   }]);
 
   return userController;
