@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _bcrypt = require('bcrypt');
+var _bcryptNodejs = require('bcrypt-nodejs');
 
-var _bcrypt2 = _interopRequireDefault(_bcrypt);
+var _bcryptNodejs2 = _interopRequireDefault(_bcryptNodejs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,12 +39,12 @@ var user = function user(sequelize, DataTypes) {
     paranoid: true,
     underscored: true,
     beforeCreate: async function beforeCreate(usr) {
-      var salt = await _bcrypt2.default.genSalt(15);
-      user.password = await _bcrypt2.default.hash(usr.password, salt);
+      var salt = await _bcryptNodejs2.default.genSalt(15);
+      user.password = await _bcryptNodejs2.default.hash(usr.password, salt);
     }
   });
   User.prototype.validPassword = async function validPassword(password) {
-    _bcrypt2.default.compare(password, this.password);
+    _bcryptNodejs2.default.compare(password, this.password);
   };
 
   return User;

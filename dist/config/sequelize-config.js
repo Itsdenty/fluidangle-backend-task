@@ -13,7 +13,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var currentDB = function currentDB(env) {
   if (env === 'test') {
     _database2.default.currentSQL.database = 'test-fluid-angle-database';
-    return _database2.default;
+  } else if (env === 'production') {
+    _database2.default.use_env_variable = 'DATABASE_URL';
   }
   return _database2.default;
 };
