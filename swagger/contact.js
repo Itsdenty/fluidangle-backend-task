@@ -229,7 +229,7 @@
 
 /**
  * @swagger
- * /contact/get/starred:
+ * /contact/starred:
  *   get:
  *     tags:
  *       - Contact
@@ -243,4 +243,27 @@
  *         description: All starred contacts
  *         schema:
  *           $ref: '#/definitions/ResponseObjectContact'
+ */
+/**
+ * @swagger
+ * /contact/{id}/star:
+ *   patch:
+ *     tags:
+ *       - SingleContact
+ *     description: update Contact's details
+ *     security:
+ *       - Bearer: []
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Contact's id
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Successfully updated Contact's details
+ *         schema:
+ *           $ref: '#/definitions/ResponseManipulation'
  */

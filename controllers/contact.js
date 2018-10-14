@@ -105,6 +105,27 @@ class contactController {
       res.send(transformer.transformResponse(0, 'ok', error));
     }
   }
+
+  /**
+   *
+   *
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @memberof contactController
+   * @returns {*} starredContacts
+   */
+  static async starContact(req, res) {
+    const userId = req.decodedToken.id;
+    const { id } = req.params;
+    const update = { isStarred: true };
+    try {
+      const starredContact = await processor.starContact(userId, id, update);
+      res.send(transformer.transformResponse(1, 'ok', starredContact));
+    } catch (error) {
+      res.send(transformer.transformResponse(0, 'ok', error));
+    }
+  }
 }
 
 

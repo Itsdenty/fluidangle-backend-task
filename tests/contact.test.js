@@ -50,12 +50,7 @@ describe('User API endpoints intgeration Tests', () => {
       firstName: generateDummyName()
     }
   };
-  const login = {
-    login: {
-      email,
-      password: 'password1234',
-    }
-  };
+
   let token = '';
 
   describe('#POST / user', () => {
@@ -69,22 +64,6 @@ describe('User API endpoints intgeration Tests', () => {
           expect(res.body.responseCode).to.equal(1);
           expect(res.body.responseText).to.equal('ok');
           user.user = res.body.payload;
-          done();
-        });
-    });
-  });
-
-  describe('#POST / user login', () => {
-    it('should login a user', (done) => {
-      request(app).post('/api/v1/user/login').send(login)
-        .end((err, res) => {
-          if (err) return done(err);
-          expect(res.statusCode).to.equal(200);
-          expect(res.body).to.be.an('object');
-          expect(res.body.payload).to.be.an('object');
-          expect(res.body.responseCode).to.equal(1);
-          expect(res.body.responseText).to.equal('ok');
-          user.user = res.body.payload.user;
           token = `Bearer ${res.body.payload.token}`;
           done();
         });
@@ -140,7 +119,7 @@ describe('User API endpoints intgeration Tests', () => {
     });
   });
 
-  describe('#POST / contact', () => {
+  describe('#PATCH / contact', () => {
     it('should edit a single contact', (done) => {
       request(app).patch(`/api/v1/contact/${contact.contact.id}`).send(update)
         .set('Authorization', token)

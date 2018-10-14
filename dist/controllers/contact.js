@@ -139,8 +139,33 @@ var contactController = function () {
       var id = req.params.id;
 
       try {
-        var deletedContact = await _contact2.default.deleteContact(userId, id);
+        var deletedContact = await _contact2.default.Contact(userId, id);
         res.send(_transformer2.default.transformResponse(1, 'ok', deletedContact));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
+      }
+    }
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof contactController
+     * @returns {*} starredContacts
+     */
+
+  }, {
+    key: 'starContact',
+    value: async function starContact(req, res) {
+      var userId = req.decodedToken.id;
+      var id = req.params.id;
+
+      var update = { isStarred: true };
+      try {
+        var starredContact = await _contact2.default.starContact(userId, id, update);
+        res.send(_transformer2.default.transformResponse(1, 'ok', starredContact));
       } catch (error) {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
