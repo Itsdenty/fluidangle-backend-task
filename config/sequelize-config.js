@@ -3,7 +3,8 @@ import dbconfig from './database';
 const currentDB = (env) => {
   if (env === 'test') {
     dbconfig.currentSQL.database = 'test-fluid-angle-database';
-    return dbconfig;
+  } else if (env === 'production') {
+    dbconfig.use_env_variable = 'DATABASE_URL';
   }
   return dbconfig;
 };
