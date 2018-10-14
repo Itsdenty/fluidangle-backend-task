@@ -83,7 +83,7 @@ class contactProcessor {
         { where: { userId, id } }
       ).then((contact) => {
         const resp = {
-          message: 'Single contact retrieved successfully',
+          message: 'Single contact updated successfully',
           contact,
         };
         resolve(resp);
@@ -104,7 +104,32 @@ class contactProcessor {
     return new Promise((resolve, reject) => {
       database.Contact.destroy({ where: { userId, id } }).then((contact) => {
         const resp = {
-          message: 'Single contact retrieved successfully',
+          message: 'Single contact deleted successfully',
+          contact,
+        };
+        resolve(resp);
+      })
+        .catch(database.Sequelize.ValidationError,
+          error => reject(error.errors))
+        .catch(error => reject(error));
+    });
+  }
+
+  /**
+   * @description - Signs a user in by creating a session token
+   * @param{Object} userId - api request
+   * @param{Object} id - route response
+   * @param{Object} update - route response
+   * @return{json} the user's login status
+   */
+  static async starContact(userId, id, update) {
+    return new Promise((resolve, reject) => {
+      database.Contact.update(
+        update,
+        { where: { userId, id } }
+      ).then((contact) => {
+        const resp = {
+          message: 'Single contact starred successfully',
           contact,
         };
         resolve(resp);
