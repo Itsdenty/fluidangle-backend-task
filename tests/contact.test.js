@@ -151,7 +151,22 @@ describe('User API endpoints intgeration Tests', () => {
           expect(res.body.payload).to.be.an('object');
           expect(res.body.responseCode).to.equal(1);
           expect(res.body.responseText).to.equal('ok');
-          contact.contact = res.body.payload.contact;
+          done();
+        });
+    });
+  });
+
+  describe('#Delete / contact', () => {
+    it('should delete a single contact', (done) => {
+      request(app).delete(`/api/v1/contact/${contact.contact.id}`)
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body.payload).to.be.an('object');
+          expect(res.body.responseCode).to.equal(1);
+          expect(res.body.responseText).to.equal('ok');
           done();
         });
     });

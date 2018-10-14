@@ -66,7 +66,7 @@ class contactController {
     }
   }
 
-    /**
+  /**
    *
    *
    * @static
@@ -81,6 +81,26 @@ class contactController {
     try {
       const userContacts = await processor.updateContact(userId, id, req.body.contact);
       res.send(transformer.transformResponse(1, 'ok', userContacts));
+    } catch (error) {
+      res.send(transformer.transformResponse(0, 'ok', error));
+    }
+  }
+
+  /**
+   *
+   *
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @memberof contactController
+   * @returns {*} deletedContact
+   */
+  static async deleteContact(req, res) {
+    const userId = req.decodedToken.id;
+    const { id } = req.params;
+    try {
+      const deletedContact = await processor.deleteContact(userId, id);
+      res.send(transformer.transformResponse(1, 'ok', deletedContact));
     } catch (error) {
       res.send(transformer.transformResponse(0, 'ok', error));
     }
