@@ -30,4 +30,5 @@ router.get('/', _auth2.default.verifyToken, _contact2.default.getContacts);
 router.get('/:id', _auth2.default.verifyToken, _contact2.default.getContact);
 router.delete('/:id', _auth2.default.verifyToken, _contact2.default.deleteContact);
 router.patch('/:id/star', _auth2.default.verifyToken, _contact2.default.starContact);
+router.get('/get/starred', _auth2.default.verifyToken, _contact2.default.getStarredContacts);
 exports.default = router;

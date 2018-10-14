@@ -139,7 +139,7 @@ var contactController = function () {
       var id = req.params.id;
 
       try {
-        var deletedContact = await _contact2.default.Contact(userId, id);
+        var deletedContact = await _contact2.default.deleteContact(userId, id);
         res.send(_transformer2.default.transformResponse(1, 'ok', deletedContact));
       } catch (error) {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
@@ -166,6 +166,28 @@ var contactController = function () {
       try {
         var starredContact = await _contact2.default.starContact(userId, id, update);
         res.send(_transformer2.default.transformResponse(1, 'ok', starredContact));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
+      }
+    }
+
+    /**
+     *
+     *
+     * @static
+     * @param {*} req
+     * @param {*} res
+     * @memberof contactController
+     * @returns {*} userContacts
+     */
+
+  }, {
+    key: 'getStarredContacts',
+    value: async function getStarredContacts(req, res) {
+      var userId = req.decodedToken.id;
+      try {
+        var starredContacts = await _contact2.default.getStarredContacts(userId);
+        res.send(_transformer2.default.transformResponse(1, 'ok', starredContacts));
       } catch (error) {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
