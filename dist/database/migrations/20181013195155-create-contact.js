@@ -42,6 +42,10 @@ exports.default = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE,
+        allowNull: true
       }
     });
   },

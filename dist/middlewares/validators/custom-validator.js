@@ -5,26 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var CustomValidators = {};
 
-CustomValidators.emailOrPhoneNumber = function () {
-  return false;
-};
-
-CustomValidators.isGT = function (input, num) {
-  return num > input;
-};
-
-CustomValidators.isGTE = function (input, num) {
-  return num >= input;
-};
-
-CustomValidators.isLT = function (input, num) {
-  return num < input;
-};
-
-CustomValidators.isLTE = function (input, num) {
-  return num <= input;
-};
-
 CustomValidators.isEqual = function (input, val) {
   if (!input) {
     return false;
@@ -87,24 +67,6 @@ CustomValidators.isBVN = function (input) {
 
 CustomValidators.isNigerianMobile = function (input) {
   return (/^(0)*(\d{10})$/.test(input)
-  );
-};
-
-CustomValidators.isIdType = function (input) {
-  if (input.length < 2 || input.length > 50) {
-    return false;
-  }
-
-  return (/^([a-zA-Z#\-\\\/\d])*$/.test(input)
-  );
-};
-
-CustomValidators.isIdNumber = function (input) {
-  if (input.length < 2 || input.length > 50) {
-    return false;
-  }
-
-  return (/^([a-zA-Z#\-\\\/\d])*$/.test(input)
   );
 };
 
