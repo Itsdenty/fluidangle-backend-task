@@ -21,9 +21,8 @@ class contactProcessor {
           };
           resolve(resp);
         })
-        .catch(database.Sequelize.ValidationError, (error) => {
-          reject(error.errors);
-        })
+        .catch(database.Sequelize.ValidationError, 
+          error => reject(error.errors))
         .catch(error => reject(error));
     });
   }
@@ -43,9 +42,8 @@ class contactProcessor {
         };
         resolve(resp);
       })
-        .catch(database.Sequelize.ValidationError, (error) => {
-          reject(error.errors);
-        })
+        .catch(database.Sequelize.ValidationError, 
+          error => reject(error.errors))
         .catch(error => reject(error));
     });
   }
@@ -59,6 +57,31 @@ class contactProcessor {
   static async getContact(userId, id) {
     return new Promise((resolve, reject) => {
       database.Contact.findOne({ where: { userId, id } }).then((contact) => {
+        const resp = {
+          message: 'Single contact retrieved successfully',
+          contact,
+        };
+        resolve(resp);
+      })
+        .catch(database.Sequelize.ValidationError, 
+          error => reject(error.errors))
+        .catch(error =>reject(error));
+    });
+  }
+
+  /**
+   * @description - Signs a user in by creating a session token
+   * @param{Object} userId - api request
+   * @param{Object} id - route response
+   * @param{Object} update - route response
+   * @return{json} the user's login status
+   */
+  static async updateContact(userId, id, update) {
+    return new Promise((resolve, reject) => {
+      database.Contact.update(
+        update,
+        { where: { userId, id } }
+      ).then((contact) => {
         const resp = {
           message: 'Single contact retrieved successfully',
           contact,

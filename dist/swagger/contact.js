@@ -173,7 +173,7 @@
 /**
  * @swagger
  * /contact/{id}:
- *   put:
+ *   patch:
  *     tags:
  *       - SingleContact
  *     description: update Contact's details
