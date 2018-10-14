@@ -45,5 +45,27 @@ class contactController {
       res.send(transformer.transformResponse(0, 'ok', error));
     }
   }
+
+    /**
+   *
+   *
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @memberof contactController
+   * @returns {*} userContacts
+   */
+  static async getContact(req, res) {
+    const userId = req.decodedToken.id;
+    const { id } = req.params;
+    try {
+      const userContacts = await processor.getContact(userId, id);
+      res.send(transformer.transformResponse(1, 'ok', userContacts));
+    } catch (error) {
+      res.send(transformer.transformResponse(0, 'ok', error));
+    }
+  }
 }
+
+
 export default contactController;

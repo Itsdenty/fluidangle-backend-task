@@ -73,6 +73,30 @@ var contactController = function () {
         res.send(_transformer2.default.transformResponse(0, 'ok', error));
       }
     }
+
+    /**
+    *
+    *
+    * @static
+    * @param {*} req
+    * @param {*} res
+    * @memberof contactController
+    * @returns {*} userContacts
+    */
+
+  }, {
+    key: 'getContact',
+    value: async function getContact(req, res) {
+      var userId = req.decodedToken.id;
+      var id = req.params.id;
+
+      try {
+        var userContacts = await _contact2.default.getContact(userId, id);
+        res.send(_transformer2.default.transformResponse(1, 'ok', userContacts));
+      } catch (error) {
+        res.send(_transformer2.default.transformResponse(0, 'ok', error));
+      }
+    }
   }]);
 
   return contactController;
