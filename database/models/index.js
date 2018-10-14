@@ -13,8 +13,8 @@ let sequelize = {};
 
 Sequelize.useCLS(namespace);
 
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable],
+if (process.env.DATABASE_URL) {
+  sequelize = new Sequelize(process.env.DATABASE_URL,
     {
       dialect: 'postgres',
       protocol: 'postgres',
