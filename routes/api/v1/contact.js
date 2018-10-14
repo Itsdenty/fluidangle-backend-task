@@ -11,4 +11,5 @@ router.get('/', jwtVerify.verifyToken, controller.getContacts);
 router.get('/:id', jwtVerify.verifyToken, controller.getContact);
 router.delete('/:id', jwtVerify.verifyToken, controller.deleteContact);
 router.patch('/:id/star', jwtVerify.verifyToken, controller.starContact);
+router.get('/get/starred', jwtVerify.verifyToken, controller.getStarredContacts);
 export default router;

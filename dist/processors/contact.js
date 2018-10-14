@@ -173,6 +173,31 @@ var contactProcessor = function () {
         });
       });
     }
+
+    /**
+     * @description - Signs a user in by creating a session token
+     * @param{Object} userId - api request
+     * @param{Object} res - route response
+     * @return{json} the user's login status
+     */
+
+  }, {
+    key: 'getStarredContacts',
+    value: async function getStarredContacts(userId) {
+      return new Promise(function (resolve, reject) {
+        _models2.default.Contact.findAll({ where: { userId: userId, isStarred: true } }).then(function (contacts) {
+          var resp = {
+            message: 'User contacts retrieved successfully successfully',
+            contacts: contacts
+          };
+          resolve(resp);
+        }).catch(_models2.default.Sequelize.ValidationError, function (error) {
+          return reject(error.errors);
+        }).catch(function (error) {
+          return reject(error);
+        });
+      });
+    }
   }]);
 
   return contactProcessor;

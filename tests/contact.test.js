@@ -103,6 +103,22 @@ describe('User API endpoints intgeration Tests', () => {
     });
   });
 
+  describe('#GET / starred contacts', () => {
+    it('should get a all starred user\'s contacts', (done) => {
+      request(app).get('/api/v1/contact/get/starred')
+        .set('Authorization', token)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body.payload).to.be.an('object');
+          expect(res.body.payload.contacts).to.be.an('array');
+          expect(res.body.responseCode).to.equal(1);
+          done();
+        });
+    });
+  });
+
   describe('#GET / user contacts', () => {
     it('should get a single contact', (done) => {
       request(app).get(`/api/v1/contact/${contact.contact.id}`)

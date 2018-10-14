@@ -229,7 +229,7 @@
 
 /**
  * @swagger
- * /contact/starred:
+ * /contact/get/starred:
  *   get:
  *     tags:
  *       - Contact
